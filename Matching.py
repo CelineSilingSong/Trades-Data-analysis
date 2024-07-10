@@ -31,7 +31,7 @@ for i in range(len(dfs)-1):
     df1 = dfs[i]
     df2 = dfs[i+1]
 
-    unique_to_df1, unique_to_df2 = code_matcher.return_unique_code(df1.iloc[:,0],df2.iloc[:,0])
+    unique_to_df1, unique_to_df2 = code_matcher.return_unique_code(df1.iloc[:,1],df2.iloc[:,1])
     print(f'difference between {year} and {year+1} is:')
     print(f'code unique to {year} is {unique_to_df1}')
     print(f'code unique to {year + 1} is {unique_to_df2}')
