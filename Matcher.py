@@ -5,15 +5,11 @@ from rapidfuzz import process
 import pandas as pd
 
 class FuzzyMatcher:
-    def __init__(self, filepath1, filepath2, columnindex1, columnindex2, codecolumn):
-        self.filepath1 = filepath1
-        self.filepath2 = filepath2
-        self.columnindex1 = columnindex1
-        self.columnindex2 = columnindex2
-        self.codecolumn = codecolumn
+    def __init__(self) -> None:
+        pass
 
     def get_most_similar_string(self, row, choices):
-        string1 = row[self.columnindex1]
+        string1 = row[0]
         match_result = process.extractOne(string1,choices)
         if match_result is None:
             return string1, 'No Match', 'No Match', 0, 0, 0
@@ -26,13 +22,20 @@ class FuzzyMatcher:
             else:
                 return string1, match_string, 'Suspicious Match', score, index
     
-    def return_matched_list (self):
+    def return_matched_list(self, string_list_1, string_list_2):
         df_matched_list = pd.DataFrame()
-        df2 = pd.read_csv(self.filepath2)
-        df1 = pd.read_csv(self.filepath1)
-        df_matched_list[['String', 'Matched String', 'Match_Type','Score','Source_Line']] = df1.apply(lambda row: self.get_most_similar_string(row, df2.iloc[self.columnindex2]), axis=1, result_type='expand')
-        df_matched_list['code'] = df2['source_Line'][self.codecolumn]
+        df_list_1 = pd.DataFrame(string_list_1)
+        df_list_2 = pd.DataFrame(string_list_2)
+        df_matched_list[['String', 'Matched String', 'Match_Type','Score','Source_Line']] = df_list_1.apply(lambda row: self.get_most_similar_string(row, df_list_2.iloc[:,0]), axis=1, result_type='expand')
         return df_matched_list
+    
+    def get_code(self, row, index_column_number, code_list):
+        df_code_list = pd.DataFrame(code_list)
+        index = row[index_column_number]
+        code = df_code_list[0][index]
+        return code
+        
+
     
 class CodeMatcher:
     def __init__(self) -> None:
