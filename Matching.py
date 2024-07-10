@@ -9,12 +9,21 @@ code_matcher = CodeMatcher()
 
 dfs = []
 
+file_paths = []
+
 for root, dirs, files in os.walk(folder):
     for file in files:
         if file.startswith('national_'):
             file_path = os.path.join(root,file)
-            df = pd.read_excel(file_path)
-            dfs.append(df)
+            file_paths.append(file_path)
+
+
+file_paths.sort()
+print(file_paths)
+
+for file_path in file_paths:
+    df = pd.read_excel(file_path)
+    dfs.append(df)
 
 year = 2013
 
