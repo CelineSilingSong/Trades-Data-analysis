@@ -38,7 +38,10 @@ class CodeMatcher:
         pass
 
     def return_unique_code(self, code_list_1, code_list_2):
-        
+        unique_to_list_1 = code_list_1 - code_list_2
+        unique_to_list_2 = code_list_2 - code_list_1
+
+        return unique_to_list_1, unique_to_list_2
 
 
 
