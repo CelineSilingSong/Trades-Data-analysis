@@ -9,10 +9,10 @@ class FuzzyMatcher:
         pass
 
     def get_most_similar_string(self, row, choices):
-        string1 = row[0]
-        match_result = process.extractOne(string1,choices)
+        string1 = row[1]
+        match_result = process.extractOne(string1, choices)
         if match_result is None:
-            return string1, 'No Match', 'No Match', 0, 0, 0
+            return string1, 'No Match', 'No Match', 0, 0
         else:
             match_string, score, index = process.extractOne(string1, choices)
             if score >= 100:
@@ -34,8 +34,6 @@ class FuzzyMatcher:
         index = row[index_column_number]
         code = df_code_list[0][index]
         return code
-        
-
     
 class CodeMatcher:
     def __init__(self) -> None:

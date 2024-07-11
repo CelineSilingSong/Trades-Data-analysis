@@ -8,7 +8,6 @@ folder = 'trades projection titles - Copy'
 code_matcher = CodeMatcher()
 
 dfs = []
-
 file_paths = []
 
 for root, dirs, files in os.walk(folder):
