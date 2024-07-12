@@ -47,6 +47,12 @@ class CodeMatcher:
         unique_to_list_2 = set2 - set1
 
         return unique_to_list_1, unique_to_list_2
+    
+    def if_match(self, code, code_list):
+        if str(code).replace(' ','') in code_list.astype(str).replace(' ', ''):
+            return True
+        else:
+            return False
 
 
 
