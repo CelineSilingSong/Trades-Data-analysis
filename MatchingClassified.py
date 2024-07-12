@@ -5,8 +5,9 @@ from Matcher import FuzzyMatcher, CodeMatcher  # Assuming Matcher.py file exists
 # Assuming 'national_classified_sheet.xlsx' and 'national_M2022_dl.xlsx' exist in the current working directory
 # Read data from Excel files
 classified_df = pd.read_excel('national_classifed_sheet.xlsx')
-df_2022 = pd.read_excel('national_M2022_dl.xlsx')
+df_2022 = pd.read_csv('cleaned 2022.csv')
 df_2022_occ = df_2022.iloc[:,:2]
+df_2022_occ.iloc[:,0] = df_2022_occ.iloc[:,0].astype(str)
 
 # Initialize FuzzyMatcher
 fuzzymatcher = FuzzyMatcher()
