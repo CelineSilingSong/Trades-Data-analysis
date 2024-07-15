@@ -49,9 +49,13 @@ class CodeMatcher:
         return unique_to_list_1, unique_to_list_2
     
     def if_match(self, code, code_list):
+        print(f'code is {code}')
+        print(f'code is is {code_list}')
         if str(code).replace(' ','') in code_list.astype(str).replace(' ', ''):
+            print('True')
             return True
         else:
+            print('False')
             return False
 
 
