@@ -49,10 +49,11 @@ for key_stat in key_stats:
         '2023':[],
     }    
     
+    # looping through all of the codes
     for code in code_list:
         data['OCC_CODE'].append(code)
         row = df_only_trade[df_only_trade.iloc[:,7] == code]
-        occupation = row['2022 National Employment Matrix title']
+        occupation = row.loc[row.index[0],'2022 National Employment Matrix title']
         data['OCC_TITLE'].append(occupation)
         for file in files:
             df_file = pd.read_excel(file)
@@ -66,9 +67,14 @@ for key_stat in key_stats:
                 year = match.group(1)
                 print(f'the year is {year}')
                 df_file = pd.read_excel(file)
-                if str(code).replace(' ','') in df_file.iloc[:,1].astype(str).replace(' ',''):                    
-                    row = df_file[df_file[:,1].astype(str) == str(code)]
-                    value = row[key_stat]
+                if str(code) in df_file.iloc[:,1].astype(str).values:                    
+                    row = df_file[df_file.iloc[:,1].astype(str) == str(code)]
+                    if key_stat in df_file.columns:
+                        value = row.loc[row.index[0],key_stat]
+                        print(value)
+                    else:
+                        lower_key_stat = key_stat.lower()
+                        value = row.loc[row.index[0],key_stat.lower()]
                     data[year].append(value)
                 else:
                     data[year].append('NA')
