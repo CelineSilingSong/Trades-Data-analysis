@@ -15,7 +15,8 @@ key_stats = ['TOT_EMP',	'EMP_PRSE',	'H_MEAN',	'A_MEAN',	'MEAN_PRSE',	'H_PCT10',	
 
 df_matched = pd.read_excel('national_classifed_sheet.xlsx')
 df_only_trade = df_matched[df_matched.iloc[:,5].astype(str) == 'IN']
-df_only_trade.iloc[:,7]= df_only_trade.iloc[:,7].replace('-','')
+df_only_trade.iloc[:,7] = df_only_trade.iloc[:,7].astype(str)
+df_only_trade.iloc[:,7]= df_only_trade.iloc[:,7].str.replace('-','')
 
 
 directory_path = 'trades projection titles - Copy'
@@ -25,7 +26,6 @@ for row in df_only_trade.iterrows():
     codes = row[1].iloc[7]
     code_list.append(codes)
 
-print(code_list)
 
 for file in os.listdir(directory):
     if file.endswith('.xlsx') and file.startswith('only trade national'):
@@ -51,19 +51,23 @@ for key_stat in key_stats:
     
     for code in code_list:
         data['OCC_CODE'].append(code)
-        print(df_only_trade.iloc[:,7])
         row = df_only_trade[df_only_trade.iloc[:,7] == code]
-        occupation = row.iloc[0]
+        occupation = row['2022 National Employment Matrix title']
         data['OCC_TITLE'].append(occupation)
         for file in files:
+            df_file = pd.read_excel(file)
             file_name = os.path.basename(file)
+            df_file.iloc[:,1] = df_file.iloc[:,1].astype(str)
+            df_file.iloc[:,1] = df_file.iloc[:,1].str.replace('-','')
+            print(df_file.iloc[:,1])
+            print(f'code is {code}')
             match = re.search(pattern, file_name)
             if match:
                 year = match.group(1)
                 print(f'the year is {year}')
                 df_file = pd.read_excel(file)
-                if code in df_file.iloc[:,0]:
-                    row = df_file[df_file[:,0].replace('-','') == code]
+                if str(code).replace(' ','') in df_file.iloc[:,1].astype(str).replace(' ',''):                    
+                    row = df_file[df_file[:,1].astype(str) == str(code)]
                     value = row[key_stat]
                     data[year].append(value)
                 else:
@@ -76,6 +80,3 @@ for key_stat in key_stats:
     finished_df.to_excel(f'{key_stat} yearly data.xlsx')
 
                 
-
-
-
