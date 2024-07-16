@@ -14,9 +14,8 @@ for row in file.iterrows():
 
 print(list)
 
-print(len(list))
-
-print(len(file))
+df = pd.DataFrame(list)
 
 
 
+df.to_csv('code_list_1.csv', index = False)
